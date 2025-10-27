@@ -1,36 +1,72 @@
 import { Link } from "react-router-dom";
 import { Instagram, Facebook, Mail } from "lucide-react";
 import botanicalLeaf from "@/assets/botanical-leaf.png";
+import { motion } from "framer-motion";
+import { fadeInUp, staggerContainer, staggerItem, luxuryPresets } from "@/lib/animations";
 
 export const Footer = () => {
   return (
-    <footer className="bg-botanical-cream border-t border-border mt-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <motion.footer 
+      className="bg-botanical-cream border-t border-border mt-20"
+      {...luxuryPresets.section}
+    >
+      <motion.div 
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16"
+        variants={staggerContainer}
+      >
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           {/* Brand */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <img src={botanicalLeaf} alt="AMAÏA Botanic" className="w-10 h-10" />
+          <motion.div className="space-y-4" variants={staggerItem}>
+            <motion.div 
+              className="flex items-center gap-3"
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.3 }}
+            >
+              <motion.img 
+                src={botanicalLeaf} 
+                alt="AMAÏA Botanic" 
+                className="w-10 h-10"
+                whileHover={{ rotate: 10 }}
+                transition={{ duration: 0.3 }}
+              />
               <div className="flex flex-col">
                 <span className="font-serif text-xl font-bold">AMAÏA Botanic</span>
                 <span className="text-xs text-botanical-gold italic">The Amaïa Rituals</span>
               </div>
-            </div>
-            <p className="text-sm text-muted-foreground">
+            </motion.div>
+            <motion.p 
+              className="text-sm text-muted-foreground"
+              variants={fadeInUp}
+            >
               Pure botanical beauty from Paris. Embrace nature's wisdom in every drop.
-            </p>
-            <div className="flex gap-4">
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                <Mail className="w-5 h-5" />
-              </a>
-            </div>
-          </div>
+            </motion.p>
+            <motion.div 
+              className="flex gap-4"
+              variants={staggerContainer}
+            >
+              {[
+                { icon: Instagram, href: "#", label: "Instagram" },
+                { icon: Facebook, href: "#", label: "Facebook" },
+                { icon: Mail, href: "#", label: "Email" }
+              ].map((social, index) => {
+                const Icon = social.icon;
+                return (
+                  <motion.a 
+                    key={index}
+                    href={social.href} 
+                    className="text-muted-foreground hover:text-primary transition-colors duration-300"
+                    variants={staggerItem}
+                    whileHover={{ scale: 1.2, y: -2 }}
+                    whileTap={{ scale: 0.9 }}
+                    transition={{ duration: 0.2 }}
+                    aria-label={social.label}
+                  >
+                    <Icon className="w-5 h-5" />
+                  </motion.a>
+                );
+              })}
+            </motion.div>
+          </motion.div>
 
           {/* Shop */}
           <div>
@@ -110,7 +146,7 @@ export const Footer = () => {
             </a>
           </div>
         </div>
-      </div>
-    </footer>
+      </motion.div>
+    </motion.footer>
   );
 };
